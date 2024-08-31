@@ -1,8 +1,4 @@
-Here's a README template you can use for your personal portfolio/website:
-
----
-
-# Personal Portfolio
+# Personal Portfolio -- Anandkumar NS
 
 Welcome to my personal portfolio website! This project showcases my skills, projects, and experience in the field of computer science and technology. Built with modern web technologies, this website serves as a platform to share my journey, connect with like-minded professionals, and explore potential collaboration opportunities.
 
