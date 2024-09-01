@@ -18,7 +18,7 @@ export default function Home() {
         <h2 className="text-4xl text-[#3D3D3D]">
           I&apos;m a{"  "}
           <span className="text-[#FFFFFF]">
-            student, a developer, a trader and an melophile{" "}
+            student, a developer, a trader and a melophile{" "}
             <span className="text-lg font-extralight">(music lover)</span>
           </span>
         </h2>
