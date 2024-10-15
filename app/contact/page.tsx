@@ -8,7 +8,7 @@ export default function Contact() {
     <div className="max-w-6xl mx-auto px-4 py-12">
       <div className="mb-16">
         <h1 className="text-4xl md:text-6xl font-bold mb-4">Get in Touch</h1>
-        <h2 className="text-2xl md:text-4xl text-[#3D3D3D]">
+        <h2 className="text-2xl md:text-4xl text-[#9c9999]">
           Let&apos;s <span className="text-[#FFFFFF]">Collaborate</span>
         </h2>
       </div>
@@ -19,15 +19,15 @@ export default function Contact() {
             Whether you have a project in mind or just want to connect, feel
             free to reach out!
           </p>
-          <div className="text-left mb-6">
+          {/* <div className="text-left mb-6">
             <h3 className="text-xl md:text-2xl font-bold mb-2">
               Contact Information
             </h3>
             <p>Email: aknsubbu@gmail.com</p>
             <p>Phone: +91 9384870740</p>
-          </div>
+          </div> */}
           <div className="text-left">
-            <h3 className="font-bold text-xl md:text-2xl text-gray-500">
+            <h3 className="font-bold text-xl md:text-2xl text-gray-300 mb-2">
               Socials
             </h3>
             <ul className="space-y-2">
