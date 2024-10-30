@@ -101,7 +101,7 @@ const EmergingTextAnimation = () => {
   useEffect(() => {
     const startTime = Date.now();
     const matrixAnimationDuration = 3000; // Matrix animation duration
-    const buttonDisplayDuration = 1000; // How long to show button before redirect
+    const buttonDisplayDuration = 5000; // How long to show button before redirect
     let animationFrameId: number;
 
     const animate = () => {
