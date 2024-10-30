@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
-import { Button } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
@@ -194,7 +194,8 @@ const EmergingTextAnimation = () => {
             className="pointer-events-auto" // Re-enable pointer events for the button
           >
             <Button
-              onClick={handleClick}
+              as={Link}
+              href="/"
               className="px-8 py-4 text-lg font-bold"
               color="primary"
               variant="shadow"
