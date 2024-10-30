@@ -101,7 +101,7 @@ const EmergingTextAnimation = () => {
   useEffect(() => {
     const startTime = Date.now();
     const matrixAnimationDuration = 3000; // Matrix animation duration
-    const buttonDisplayDuration = 5000; // How long to show button before redirect
+    const buttonDisplayDuration = 2000; // How long to show button before redirect
     let animationFrameId: number;
 
     const animate = () => {
@@ -193,7 +193,7 @@ const EmergingTextAnimation = () => {
         ))}
       </div>
 
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {showButton && (
           <div className="absolute inset-0 flex items-end justify-center pointer-events-none pb-16">
             <motion.div
@@ -234,7 +234,7 @@ const EmergingTextAnimation = () => {
             </motion.div>
           </div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </div>
   );
 };
