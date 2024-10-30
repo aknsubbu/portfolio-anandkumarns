@@ -6,8 +6,8 @@ export function middleware(request: NextRequest) {
   const currentPath = request.nextUrl.pathname;
 
   // If no animation cookie and not on animation page, redirect to animation
-  if (!animationCookie && currentPath !== "/animation") {
-    return NextResponse.redirect(new URL("/animation", request.url));
+  if (!animationCookie && currentPath !== "/welcome") {
+    return NextResponse.redirect(new URL("/welcome", request.url));
   }
 
   // For all other cases, continue to the requested page
