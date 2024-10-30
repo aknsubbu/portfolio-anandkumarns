@@ -28,11 +28,11 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div>
+          {/* <div>
             <h3 className="font-semibold text-gray-500 mb-2">Contact</h3>
             <p>aknsubbu@gmail.com</p>
             <p>+91 9384870740</p>
-          </div>
+          </div> */}
           <div>
             <h3 className="font-semibold text-gray-500 mb-2">Socials</h3>
             <ul className="space-y-1">
@@ -53,7 +53,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div>
+          <div className="justify-end w-full">
             <p>©2024</p>
           </div>
         </div>

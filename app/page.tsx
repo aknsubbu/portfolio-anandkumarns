@@ -2,7 +2,8 @@ import { Link } from "@nextui-org/link";
 import { Button } from "@nextui-org/button";
 import ProjectCard from "@/components/ProjectCard";
 import { projectConfig } from "@/config/projects";
-import { Navbar } from "@/components/navbar"; // Import the Navbar component
+import { Navbar } from "@/components/navbar";
+import Footer from "@/components/footer";
 
 export default function Home() {
   const featuredProjects = projectConfig
@@ -41,6 +42,8 @@ export default function Home() {
                   image={project.image}
                   rank={project.rank}
                   title={project.title}
+                  technologies={project.technologies}
+                  github={project.github}
                 />
               </div>
             ))}
@@ -52,6 +55,7 @@ export default function Home() {
           </Button>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

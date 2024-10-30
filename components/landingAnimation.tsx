@@ -1,4 +1,3 @@
-"use client";
 import React, { useState, useEffect, useCallback } from "react";
 import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
