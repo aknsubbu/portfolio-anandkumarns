@@ -11,7 +11,7 @@ export const projectConfig = [
     github: "https://github.com/aknsubbu/XAISuggestionServer",
   },
   {
-    title: "Sustainable Agriculture AI Workflow",
+    title: "Sustainable Agri AI Workflow",
     description:
       "A unique AI Agentic Workflow to help promote sustainable agriculture practices with the help of a crew of AI Agents for the collaboration and coordination between different capabilities built into the software…",
     image: "/saaiw1.png",
