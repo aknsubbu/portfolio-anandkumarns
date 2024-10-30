@@ -50,11 +50,14 @@ export default function About() {
               Skills
             </h3>
             <ul className="text-left list-disc list-inside text-gray-300 space-y-2">
-              <li>JavaScript (React, Node.js, ExpressJS, NextJS)</li>
+              <li>
+                JavaScript (React, React Native, Expo, Node.js, ExpressJS,
+                NextJS)
+              </li>
               <li>TypeScript (NextJS)</li>
               <li>C (Algorithms, Data Structures and Networking Sockets)</li>
               <li>Python (FastAPI, Flask)</li>
-              <li>Database Design (SQL, MongoDB)</li>
+              <li>Database Design (SQL, MongoDB, PostgresSQL)</li>
               <li>Cloud Services (Azure, Google Cloud)</li>
               <li>Applied AI (Ollama, LangChain, LlamaIndex)</li>
             </ul>

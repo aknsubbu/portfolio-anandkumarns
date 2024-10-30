@@ -13,6 +13,8 @@ export default function ProjectsGrid() {
             image={project.image} // Assuming we use the first image
             rank={project.rank}
             title={project.title}
+            technologies={project.technologies}
+            github={project.github}
           />
         ))}
       </div>
