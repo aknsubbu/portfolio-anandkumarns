@@ -7,17 +7,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div
       className={clsx(
-        "min-h-screen bg-background font-sans antialiased bg-black"
+        "min-h-screen bg-background font-sans antialiased bg-transparent"
       )}
     >
       <div className="relative flex flex-col h-screen">
-        <Navbar />
-        <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+        <main className="container mx-auto max-w-7xl  px-6 flex-grow">
           {children}
         </main>
-        <footer className="w-full flex items-center py-3">
-          <Footer />
-        </footer>
       </div>
     </div>
   );
