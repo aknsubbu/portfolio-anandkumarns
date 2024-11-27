@@ -1,39 +1,43 @@
-"use client";
-
 import { Link } from "@nextui-org/link";
 import { siteConfig } from "@/config/site";
+import clsx from "clsx";
+import { fontMono } from "@/config/fonts";
+import { themeConfig } from "@/config/themeConfig";
 
 export default function Contact() {
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
+    <div className={clsx("max-w-6xl mx-auto px-4 py-12", fontMono.variable)}>
+      {/* Header Section */}
       <div className="mb-16">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4">Get in Touch</h1>
-        <h2 className="text-2xl md:text-4xl text-[#9c9999]">
-          Let&apos;s <span className="text-[#FFFFFF]">Collaborate</span>
+        <h1 className="text-4xl md:text-6xl font-bold mb-4 font-mono">
+          Get in Touch
+        </h1>
+        <h2 className="text-2xl md:text-4xl font-mono">
+          Let&apos;s <span className="text-white">Collaborate</span>
         </h2>
       </div>
+
+      {/* Main Content Grid */}
       <div className="grid md:grid-cols-2 gap-12">
-        <div>
-          <p className="text-lg md:text-xl mb-6 text-left">
+        {/* Left Column - Info */}
+        <div className="space-y-8">
+          <p className="text-lg md:text-xl font-mono">
             I&apos;m always open to new opportunities and collaborations.
             Whether you have a project in mind or just want to connect, feel
             free to reach out!
           </p>
-          {/* <div className="text-left mb-6">
-            <h3 className="text-xl md:text-2xl font-bold mb-2">
-              Contact Information
-            </h3>
-            <p>Email: aknsubbu@gmail.com</p>
-            <p>Phone: +91 9384870740</p>
-          </div> */}
-          <div className="text-left">
-            <h3 className="font-bold text-xl md:text-2xl text-gray-300 mb-2">
+
+          <div>
+            <h3 className="text-xl md:text-2xl text-gray-300 font-mono font-bold underline mb-4">
               Socials
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               {Object.entries(siteConfig.links).map(([key, value]) => (
                 <li key={key}>
-                  <Link className="text-[#EFA00B]" href={value}>
+                  <Link
+                    className={`text-emerald-600 font-mono hover:text-emerald-700 transition-colors`}
+                    href={value}
+                  >
                     {key.charAt(0).toUpperCase() + key.slice(1)}
                   </Link>
                 </li>
@@ -41,6 +45,8 @@ export default function Contact() {
             </ul>
           </div>
         </div>
+
+        {/* Right Column - Contact Form */}
         <div>
           <form
             action="https://api.web3forms.com/submit"
@@ -48,76 +54,86 @@ export default function Contact() {
             className="space-y-6"
           >
             <input
-              name="access_key"
               type="hidden"
+              name="access_key"
               value="bfc689bb-11be-43ff-9764-e8ecf0b6a523"
             />
 
             <div className="flex flex-wrap -mx-2">
               <div className="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
                 <label
-                  className="block mb-1.5 text-sm font-semibold"
+                  className="block mb-2 text-sm font-semibold font-mono"
                   htmlFor="full-name"
                 >
-                  <span>Name</span>
-                  <span className="text-red-600">*</span>
+                  Name<span className="text-red-600 ml-1">*</span>
                 </label>
                 <input
                   required
-                  className="w-full py-3 px-4 text-sm text-gray-900 placeholder-gray-400 border border-gray-200 focus:border-purple-500 focus:outline-purple rounded-lg"
+                  type="text"
                   id="full-name"
                   name="name"
-                  placeholder="Enter Name here"
-                  type="text"
+                  placeholder="Enter your name"
+                  className="w-full py-3 px-4 text-sm text-gray-100 placeholder-gray-400 
+                           border border-gray-200 rounded-lg font-mono
+                           focus:border-emerald-600 focus:outline-none 
+                           transition-colors duration-200"
                 />
               </div>
               <div className="w-full sm:w-1/2 px-2">
                 <label
-                  className="block mb-1.5 text-sm font-semibold"
+                  className="block mb-2 text-sm font-semibold font-mono"
                   htmlFor="email"
                 >
-                  <span>Email</span>
-                  <span className="text-red-600">*</span>
+                  Email<span className="text-red-600 ml-1">*</span>
                 </label>
                 <input
                   required
-                  className="w-full py-3 px-4 text-sm text-gray-900 placeholder-gray-400 border border-gray-200 focus:border-purple-500 focus:outline-purple rounded-lg"
+                  type="email"
                   id="email"
                   name="email"
-                  placeholder="Enter your E-mail here"
-                  type="email"
+                  placeholder="Enter your email"
+                  className="w-full py-3 px-4 text-sm text-gray-100 placeholder-gray-400 
+                           border border-gray-200 rounded-lg font-mono
+                           focus:border-emerald-600 focus:outline-none 
+                           transition-colors duration-200"
                 />
               </div>
             </div>
+
             <div>
               <label
-                className="block mb-1.5 text-sm font-semibold"
+                className="block mb-2 text-sm font-semibold font-mono"
                 htmlFor="message"
               >
-                <span>Message</span>
-                <span className="text-red-600">*</span>
+                Message<span className="text-red-600 ml-1">*</span>
               </label>
               <textarea
                 required
-                className="w-full h-32 py-3 px-4 resize-none text-sm text-gray-900 placeholder-gray-400 border border-gray-200 focus:border-purple-500 focus:outline-purple rounded-lg"
                 id="message"
                 name="message"
-                placeholder="What you want to say..."
+                placeholder="Write your message here..."
+                className="w-full h-32 py-3 px-4 text-sm text-gray-100 placeholder-gray-400 
+                         border border-gray-200 rounded-lg font-mono resize-none
+                         focus:border-emerald-600 focus:outline-none 
+                         transition-colors duration-200"
               />
             </div>
-            <div
-              className="h-captcha flex items-center justify-center"
-              data-captcha="true"
-            />
+
+            <div className="h-captcha" data-captcha="true" />
+
             <div className="flex justify-center sm:justify-start">
               <button
-                className="relative group inline-block flex-shrink-0 w-full sm:w-auto py-3 px-5 text-sm font-semibold text-white bg-[#EFA00B] border-2 border-[#EFA00B] rounded-md overflow-hidden transition duration-300 hover:bg-[#D98E0A]"
                 type="submit"
+                className="w-full sm:w-auto py-3 px-8 text-sm font-semibold font-mono
+                         text-white bg-emerald-600 rounded-lg
+                         hover:bg-emerald-700 transition-colors duration-200
+                         border-2 border-emerald-600 hover:border-emerald-700"
               >
-                <span className="relative z-10">Send</span>
+                Send Message
               </button>
             </div>
           </form>
+
           <script async defer src="https://web3forms.com/client/script.js" />
         </div>
       </div>

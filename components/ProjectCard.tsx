@@ -1,22 +1,27 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import {
   Card,
-  CardHeader,
   CardBody,
-  CardFooter,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   Button,
 } from "@nextui-org/react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Github, Code } from "lucide-react";
+import { motion } from "framer-motion";
+import clsx from "clsx";
+import { fontMono } from "@/config/fonts";
+import { ExternalLink, Github } from "lucide-react";
 
 interface ProjectCardProps {
   title: string;
   description: string;
   image: string;
   rank: number;
-  technologies: string[]; // Make technologies required
+  technologies: string[];
   link?: string;
   github?: string;
 }
@@ -30,131 +35,208 @@ const ProjectCard = ({
   link,
   github,
 }: ProjectCardProps) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const hasLinks = link || github;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+
+    // Initial check
+    checkMobile();
+
+    // Add event listener
+    window.addEventListener("resize", checkMobile);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const handleCardClick = () => {
+    setIsModalOpen(true);
+  };
 
   return (
-    <div className="relative">
+    <>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        whileHover={{ scale: 1.02, y: -5 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className={clsx(fontMono.variable, "cursor-pointer")}
+        onClick={handleCardClick}
       >
-        <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-1000" />
-
-        <Card
-          className="w-full backdrop-blur-xl bg-black/90 border border-gray-800 rounded-xl overflow-hidden shadow-2xl relative z-10"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          {/* Rank Badge */}
-          <div className="absolute top-4 left-4 z-20">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 p-0.5 rounded-lg"
-            >
-              <div className="bg-black px-3 py-1 rounded-lg">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 font-mono font-bold">
-                  #{rank.toString().padStart(2, "0")}
-                </span>
-              </div>
-            </motion.div>
-          </div>
-
-          <CardHeader className="flex flex-col gap-2 p-6">
-            <h2 className="text-2xl font-bold text-white tracking-tight">
-              {title}
-            </h2>
-
-            {/* Tech Stack Pills - Now explicitly checking for technologies */}
-            {technologies && technologies.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-2">
-                {technologies.map((tech, index) => (
-                  <span
-                    key={index}
-                    className="px-3 py-1 text-xs font-mono rounded-full bg-gray-800/50 text-gray-300 border border-gray-700/50 hover:border-gray-600 transition-colors"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            )}
-          </CardHeader>
-
-          <CardBody className="p-0 relative">
-            <div className="relative aspect-video">
+        <Card className="bg-black/20 backdrop-blur-sm border border-orange-400/10 hover:border-orange-400/20 transition-all duration-500 font-mono">
+          <CardBody className="p-0 overflow-hidden">
+            <div className="relative aspect-[16/9]">
               <Image
                 alt={title}
                 src={image}
                 fill
-                className="object-cover transition-transform duration-300"
-                quality={90}
+                className="object-cover transition-all duration-500"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 priority
               />
-              <AnimatePresence>
-                {isHovered && (
-                  <motion.div
+              <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/80 transition-opacity duration-300 group-hover:from-black/90 group-hover:via-black/60 group-hover:to-black/90" />
+
+              <div className="absolute inset-0 p-4 sm:p-6 flex flex-col justify-between">
+                <div className="space-y-2 sm:space-y-4">
+                  <motion.span
+                    className="text-green-600/60 font-mono text-base sm:text-lg"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/80 to-black flex items-center justify-center p-6"
                   >
-                    <p className="text-gray-200 text-lg leading-relaxed">
-                      {description}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    {rank.toString().padStart(2, "0")}
+                  </motion.span>
+
+                  <motion.h2
+                    className="text-xl sm:text-2xl font-light text-white/90 font-mono line-clamp-2"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    {title}
+                  </motion.h2>
+                </div>
+
+                <div className="space-y-2 sm:space-y-4">
+                  <div className="flex flex-wrap gap-1 sm:gap-2">
+                    {technologies.map((tech, index) => (
+                      <span
+                        key={index}
+                        className="text-sm sm:text-md text-green-600/60 font-mono"
+                      >
+                        {tech}
+                        {index < technologies.length - 1 && " •"}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </CardBody>
-
-          <CardFooter className="flex justify-between items-center p-6 bg-gradient-to-b from-transparent to-black/40">
-            <div className="flex gap-3">
-              {github && (
-                <Button
-                  size="sm"
-                  variant="flat"
-                  className="bg-gray-800/50 hover:bg-gray-700/50 text-white"
-                  as="a"
-                  href={github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Github className="w-4 h-4 mr-2" />
-                  Code
-                </Button>
-              )}
-              {link && (
-                <Button
-                  size="sm"
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white"
-                  as="a"
-                  href={link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <ExternalLink className="w-4 h-4 mr-2" />
-                  Live Demo
-                </Button>
-              )}
-            </div>
-
-            {hasLinks && (
-              <motion.div
-                animate={{ rotate: isHovered ? 360 : 0 }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                className="opacity-50"
-              >
-                <Code className="w-6 h-6 text-white" />
-              </motion.div>
-            )}
-          </CardFooter>
         </Card>
       </motion.div>
-    </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        size={isMobile ? "full" : "2xl"}
+        scrollBehavior="inside"
+        className={clsx(
+          "bg-black/0 dark:bg-black/0",
+          isMobile && "m-0 p-0 rounded-none"
+        )}
+        motionProps={{
+          variants: {
+            enter: {
+              y: 0,
+              opacity: 1,
+              transition: {
+                duration: 0.3,
+                ease: "easeOut",
+              },
+            },
+            exit: {
+              y: 20,
+              opacity: 0,
+              transition: {
+                duration: 0.2,
+                ease: "easeIn",
+              },
+            },
+          },
+        }}
+      >
+        <ModalContent
+          className={clsx(
+            "bg-black/90 border border-green-600/20 font-mono",
+            isMobile ? "m-0 h-full rounded-none" : "mx-auto my-2 rounded-lg",
+            fontMono.variable
+          )}
+        >
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1 text-white border-b border-green-600/20 font-mono p-4 sm:p-6">
+                <span className="text-green-600/60 font-mono text-sm">
+                  {rank.toString().padStart(2, "0")}
+                </span>
+                <h2 className="text-xl sm:text-2xl font-light font-mono">
+                  {title}
+                </h2>
+              </ModalHeader>
+
+              <ModalBody
+                className={clsx(
+                  "text-white py-4 sm:py-6 px-4 sm:px-6 overflow-y-auto",
+                  fontMono.variable
+                )}
+              >
+                <div className="relative aspect-[16/9] w-full mb-4">
+                  <Image
+                    alt={title}
+                    src={image}
+                    fill
+                    className="object-cover rounded-lg"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority
+                  />
+                </div>
+                <p className="text-gray-300 text-sm sm:text-base font-light leading-relaxed font-mono">
+                  {description}
+                </p>
+                <div className="flex flex-wrap gap-1 sm:gap-2 mt-4 font-mono">
+                  {technologies.map((tech, index) => (
+                    <span
+                      key={index}
+                      className="text-base sm:text-lg text-green-600/60 font-mono"
+                    >
+                      {tech}
+                      {index < technologies.length - 1 && " •"}
+                    </span>
+                  ))}
+                </div>
+              </ModalBody>
+
+              <ModalFooter className="border-t border-green-600/20 p-4 sm:p-6 flex-col sm:flex-row gap-2 sm:gap-4">
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full">
+                  {github && (
+                    <Button
+                      as="a"
+                      href={github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full sm:w-auto bg-white/10 text-white hover:bg-white/20 min-w-[120px]"
+                      startContent={<Github className="w-4 h-4" />}
+                    >
+                      GitHub
+                    </Button>
+                  )}
+                  {link && (
+                    <Button
+                      as="a"
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full sm:w-auto bg-orange-500/20 text-green-600 hover:bg-green-500/30 min-w-[120px]"
+                      startContent={<ExternalLink className="w-4 h-4" />}
+                    >
+                      Visit Site
+                    </Button>
+                  )}
+                  <Button
+                    onPress={onClose}
+                    className="w-full sm:w-auto ml-0 sm:ml-auto bg-white/10 text-white hover:bg-white/20"
+                  >
+                    Close
+                  </Button>
+                </div>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 
