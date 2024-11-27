@@ -27,12 +27,12 @@ export default function About() {
         <div className="flex flex-col justify-start space-y-8">
           <div className="w-full">
             <div className="max-w-sm md:ml-0 space-y-4 mt-10">
-              <p className="text-lg md:text-xl font-light italic font-mono">
+              <p className="text-lg md:text-xl font-light italic font-mono text-right">
                 &quot;The surest way to corrupt a youth is to instruct him to
                 hold in higher esteem those who think alike than those who think
                 differently...&quot;
               </p>
-              <p className="text-lg md:text-xl font-extralight text-right font-mono">
+              <p className="text-lg md:text-xl font-extralight text-right font-mono mb-5 pb-5">
                 -Friedrich Nietzsche
               </p>
             </div>

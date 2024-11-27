@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-export default function ProjectsLayout({
+export default function AboutLayout({
   children,
 }: {
   children: React.ReactNode;

@@ -1,9 +1,8 @@
-"use client";
-
 import { Link } from "@nextui-org/link";
 import { siteConfig } from "@/config/site";
 import clsx from "clsx";
 import { fontMono } from "@/config/fonts";
+import { themeConfig } from "@/config/themeConfig";
 
 export default function Contact() {
   return (
@@ -36,7 +35,7 @@ export default function Contact() {
               {Object.entries(siteConfig.links).map(([key, value]) => (
                 <li key={key}>
                   <Link
-                    className="text-[#EFA00B] font-mono hover:text-[#D98E0A] transition-colors"
+                    className={`text-emerald-600 font-mono hover:text-emerald-700 transition-colors`}
                     href={value}
                   >
                     {key.charAt(0).toUpperCase() + key.slice(1)}
@@ -76,7 +75,7 @@ export default function Contact() {
                   placeholder="Enter your name"
                   className="w-full py-3 px-4 text-sm text-gray-100 placeholder-gray-400 
                            border border-gray-200 rounded-lg font-mono
-                           focus:border-[#EFA00B] focus:outline-none 
+                           focus:border-emerald-600 focus:outline-none 
                            transition-colors duration-200"
                 />
               </div>
@@ -95,7 +94,7 @@ export default function Contact() {
                   placeholder="Enter your email"
                   className="w-full py-3 px-4 text-sm text-gray-100 placeholder-gray-400 
                            border border-gray-200 rounded-lg font-mono
-                           focus:border-[#EFA00B] focus:outline-none 
+                           focus:border-emerald-600 focus:outline-none 
                            transition-colors duration-200"
                 />
               </div>
@@ -115,7 +114,7 @@ export default function Contact() {
                 placeholder="Write your message here..."
                 className="w-full h-32 py-3 px-4 text-sm text-gray-100 placeholder-gray-400 
                          border border-gray-200 rounded-lg font-mono resize-none
-                         focus:border-[#EFA00B] focus:outline-none 
+                         focus:border-emerald-600 focus:outline-none 
                          transition-colors duration-200"
               />
             </div>
@@ -126,9 +125,9 @@ export default function Contact() {
               <button
                 type="submit"
                 className="w-full sm:w-auto py-3 px-8 text-sm font-semibold font-mono
-                         text-white bg-[#EFA00B] rounded-lg
-                         hover:bg-[#D98E0A] transition-colors duration-200
-                         border-2 border-[#EFA00B] hover:border-[#D98E0A]"
+                         text-white bg-emerald-600 rounded-lg
+                         hover:bg-emerald-700 transition-colors duration-200
+                         border-2 border-emerald-600 hover:border-emerald-700"
               >
                 Send Message
               </button>

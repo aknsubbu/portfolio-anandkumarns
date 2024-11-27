@@ -10,6 +10,7 @@ import Footer from "@/components/footer";
 
 import { siteConfig } from "@/config/site";
 import { fontMono } from "@/config/fonts";
+import { themeConfig } from "@/config/themeConfig";
 
 export const metadata: Metadata = {
   title: {
@@ -30,18 +31,20 @@ export const viewport: Viewport = {
 };
 
 const GradientBackground = () => {
+  const { gradientColor } = themeConfig;
+
   return (
     <>
-      {/* Left orange gradient spot */}
+      {/* Left gradient spot */}
       <div
         className="fixed w-[1200px] h-[1200px] bottom-0 left-0 pointer-events-none"
         style={{
           background: `radial-gradient(
             circle at center,
-            rgba(255, 134, 71, 0.3) 0%,
-            rgba(255, 134, 71, 0.2) 20%,
-            rgba(255, 134, 71, 0.1) 40%,
-            rgba(255, 134, 71, 0) 70%
+            ${gradientColor.primary} 0%,
+            ${gradientColor.secondary} 20%,
+            ${gradientColor.tertiary} 40%,
+            ${gradientColor.transparent} 70%
           )`,
           transform: "translate(-30%, 30%)",
           filter: "blur(80px)",
@@ -50,16 +53,16 @@ const GradientBackground = () => {
         }}
       />
 
-      {/* Right orange gradient spot */}
+      {/* Right gradient spot */}
       <div
         className="fixed w-[1000px] h-[1000px] top-0 right-0 pointer-events-none"
         style={{
           background: `radial-gradient(
             circle at center,
-            rgba(255, 134, 71, 0.3) 0%,
-            rgba(255, 134, 71, 0.2) 20%,
-            rgba(255, 134, 71, 0.1) 40%,
-            rgba(255, 134, 71, 0) 70%
+            ${gradientColor.primary} 0%,
+            ${gradientColor.secondary} 20%,
+            ${gradientColor.tertiary} 40%,
+            ${gradientColor.transparent} 70%
           )`,
           transform: "translate(30%, -30%)",
           filter: "blur(25px)",
@@ -75,7 +78,7 @@ const GradientBackground = () => {
           background: `repeating-linear-gradient(
             90deg,
             transparent,
-            rgba(255, 255, 255, 0.03) 1px,
+            ${themeConfig.stripeColor} 1px,
             transparent 2px,
             transparent 20px
           )`,
@@ -120,10 +123,9 @@ export default function RootLayout({
               </header>
               <main className="pb-20">{children}</main>
             </div>
-            {/* <div className="h-48" />
-            <div className="h-64" /> 
-            <div className="h-64" />  */}
-            <div className="mt-auto border-t-2 border-gray-400">
+            <div
+              className={`mt-auto border-t-2 border-${themeConfig.borderColor}`}
+            >
               {" "}
               <Footer />
             </div>

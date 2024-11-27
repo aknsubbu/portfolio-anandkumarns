@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import {
   Card,
@@ -36,9 +36,24 @@ const ProjectCard = ({
   github,
 }: ProjectCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+
+    // Initial check
+    checkMobile();
+
+    // Add event listener
+    window.addEventListener("resize", checkMobile);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const handleCardClick = () => {
-    console.log("Card clicked"); // Debug log
     setIsModalOpen(true);
   };
 
@@ -48,7 +63,7 @@ const ProjectCard = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className={clsx(fontMono.variable)}
+        className={clsx(fontMono.variable, "cursor-pointer")}
         onClick={handleCardClick}
       >
         <Card className="bg-black/20 backdrop-blur-sm border border-orange-400/10 hover:border-orange-400/20 transition-all duration-500 font-mono">
@@ -60,16 +75,14 @@ const ProjectCard = ({
                 fill
                 className="object-cover transition-all duration-500"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority
               />
-              {/* Complex Gradient Overlay with Hover Effect */}
               <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/80 transition-opacity duration-300 group-hover:from-black/90 group-hover:via-black/60 group-hover:to-black/90" />
 
-              {/* Content Overlay */}
-              <div className="absolute inset-0 p-6 flex flex-col justify-between">
-                {/* Top Section */}
-                <div className="space-y-4">
+              <div className="absolute inset-0 p-4 sm:p-6 flex flex-col justify-between">
+                <div className="space-y-2 sm:space-y-4">
                   <motion.span
-                    className="text-orange-400/60 font-mono text-lg"
+                    className="text-green-600/60 font-mono text-base sm:text-lg"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                   >
@@ -77,7 +90,7 @@ const ProjectCard = ({
                   </motion.span>
 
                   <motion.h2
-                    className="text-2xl font-light text-white/90 font-mono"
+                    className="text-xl sm:text-2xl font-light text-white/90 font-mono line-clamp-2"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.1 }}
@@ -86,13 +99,12 @@ const ProjectCard = ({
                   </motion.h2>
                 </div>
 
-                {/* Bottom Section */}
-                <div className="space-y-4">
-                  <div className="flex flex-wrap gap-2">
+                <div className="space-y-2 sm:space-y-4">
+                  <div className="flex flex-wrap gap-1 sm:gap-2">
                     {technologies.map((tech, index) => (
                       <span
                         key={index}
-                        className="text-md text-orange-400/60 font-mono"
+                        className="text-sm sm:text-md text-green-600/60 font-mono"
                       >
                         {tech}
                         {index < technologies.length - 1 && " •"}
@@ -109,82 +121,119 @@ const ProjectCard = ({
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        className="bg-black"
-        size="2xl"
+        size={isMobile ? "full" : "2xl"}
+        scrollBehavior="inside"
+        className={clsx(
+          "bg-black/0 dark:bg-black/0",
+          isMobile && "m-0 p-0 rounded-none"
+        )}
+        motionProps={{
+          variants: {
+            enter: {
+              y: 0,
+              opacity: 1,
+              transition: {
+                duration: 0.3,
+                ease: "easeOut",
+              },
+            },
+            exit: {
+              y: 20,
+              opacity: 0,
+              transition: {
+                duration: 0.2,
+                ease: "easeIn",
+              },
+            },
+          },
+        }}
       >
         <ModalContent
           className={clsx(
-            "bg-black/90 border border-orange-400/20 font-mono",
+            "bg-black/90 border border-green-600/20 font-mono",
+            isMobile ? "m-0 h-full rounded-none" : "mx-auto my-2 rounded-lg",
             fontMono.variable
           )}
         >
-          <ModalHeader className="flex flex-col gap-1 text-white border-b border-orange-400/20 font-mono">
-            <span className="text-orange-400/60 font-mono text-sm">
-              {rank.toString().padStart(2, "0")}
-            </span>
-            <h2 className="text-2xl font-light font-mono">{title}</h2>
-          </ModalHeader>
-
-          <ModalBody className={clsx("text-white py-6", fontMono.variable)}>
-            <div className="relative aspect-[16/9] w-full mb-4">
-              <Image
-                alt={title}
-                src={image}
-                fill
-                className="object-cover rounded-lg"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
-            </div>
-            <p className="text-gray-300 font-light leading-relaxed font-mono">
-              {description}
-            </p>
-            <div className="flex flex-wrap gap-2 mt-4 font-mono">
-              {technologies.map((tech, index) => (
-                <span
-                  key={index}
-                  className="text-lg text-orange-400/60 font-mono"
-                >
-                  {tech}
-                  {index < technologies.length - 1 && " •"}
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1 text-white border-b border-green-600/20 font-mono p-4 sm:p-6">
+                <span className="text-green-600/60 font-mono text-sm">
+                  {rank.toString().padStart(2, "0")}
                 </span>
-              ))}
-            </div>
-          </ModalBody>
+                <h2 className="text-xl sm:text-2xl font-light font-mono">
+                  {title}
+                </h2>
+              </ModalHeader>
 
-          <ModalFooter className="border-t border-orange-400/20">
-            <div className="flex gap-4 w-full">
-              {github && (
-                <Button
-                  as="a"
-                  href={github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white/10 text-white hover:bg-white/20"
-                  startContent={<Github className="w-4 h-4" />}
-                >
-                  GitHub
-                </Button>
-              )}
-              {link && (
-                <Button
-                  as="a"
-                  href={link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-orange-500/20 text-orange-400 hover:bg-orange-500/30"
-                  startContent={<ExternalLink className="w-4 h-4" />}
-                >
-                  Visit Site
-                </Button>
-              )}
-              <Button
-                onPress={() => setIsModalOpen(false)}
-                className="ml-auto bg-white/10 text-white hover:bg-white/20"
+              <ModalBody
+                className={clsx(
+                  "text-white py-4 sm:py-6 px-4 sm:px-6 overflow-y-auto",
+                  fontMono.variable
+                )}
               >
-                Close
-              </Button>
-            </div>
-          </ModalFooter>
+                <div className="relative aspect-[16/9] w-full mb-4">
+                  <Image
+                    alt={title}
+                    src={image}
+                    fill
+                    className="object-cover rounded-lg"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority
+                  />
+                </div>
+                <p className="text-gray-300 text-sm sm:text-base font-light leading-relaxed font-mono">
+                  {description}
+                </p>
+                <div className="flex flex-wrap gap-1 sm:gap-2 mt-4 font-mono">
+                  {technologies.map((tech, index) => (
+                    <span
+                      key={index}
+                      className="text-base sm:text-lg text-green-600/60 font-mono"
+                    >
+                      {tech}
+                      {index < technologies.length - 1 && " •"}
+                    </span>
+                  ))}
+                </div>
+              </ModalBody>
+
+              <ModalFooter className="border-t border-green-600/20 p-4 sm:p-6 flex-col sm:flex-row gap-2 sm:gap-4">
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full">
+                  {github && (
+                    <Button
+                      as="a"
+                      href={github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full sm:w-auto bg-white/10 text-white hover:bg-white/20 min-w-[120px]"
+                      startContent={<Github className="w-4 h-4" />}
+                    >
+                      GitHub
+                    </Button>
+                  )}
+                  {link && (
+                    <Button
+                      as="a"
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full sm:w-auto bg-orange-500/20 text-green-600 hover:bg-green-500/30 min-w-[120px]"
+                      startContent={<ExternalLink className="w-4 h-4" />}
+                    >
+                      Visit Site
+                    </Button>
+                  )}
+                  <Button
+                    onPress={onClose}
+                    className="w-full sm:w-auto ml-0 sm:ml-auto bg-white/10 text-white hover:bg-white/20"
+                  >
+                    Close
+                  </Button>
+                </div>
+              </ModalFooter>
+            </>
+          )}
         </ModalContent>
       </Modal>
     </>
