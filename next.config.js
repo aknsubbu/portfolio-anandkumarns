@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  transpilePackages: ["@nextui-org/react", "@nextui-org/theme"],
+  experimental: {
+    esmExternals: "loose",
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
