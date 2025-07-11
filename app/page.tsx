@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { Link } from "@nextui-org/link";
 import { themeConfig } from "@/config/themeConfig";
 
+import ProjectCard from "@/components/ProjectCard";
+
 // Skills Section Component
 const SkillsSection = () => {
   const skills = {
@@ -72,58 +74,54 @@ const SkillsSection = () => {
 
 // Featured Projects Component
 const FeaturedProjects = () => {
-  const projects = [
+  const projectInfos = [
     {
-      title: "XploraML",
+      title:
+        "Enhanced Multi-Scale Pyramid Deep Image Prior (in collaboration with National Remote Sensing Center, Indian Space Research Organisation)",
       description:
-        "XAI Technique Suggestion Tool using locally hosted LLMs with Ollama, implementing RAG for framework recommendations.",
-      tags: ["LLMs", "Ollama", "RAG", "XAI"],
+        "Developed a enhanced version of Deep Image Prior tech customised for Cloud Removal from Satellite images. This work is being converted into research papers for publication alongside NRSC.",
+      image: "/dip.png",
+      rank: 1,
+      technologies: [
+        "Python",
+        "Deep Image Prior",
+        "PyTorch",
+        "Satellite Imagery",
+        "Cloud Removal",
+      ],
+      github: "https://github.com/aknsubbu/",
     },
     {
-      title: "PSG Connect",
+      title:
+        "Regime-Switching Financial Risk Prediction Using Hidden Markov Model GARCH and Monte Carlo Simulation (Ongoing)",
       description:
-        "Mobile app improving college ECampus accessibility with offline support and enhanced UI using Expo, React Native, and FastAPI.",
-      tags: ["React Native", "FastAPI", "Expo"],
-    },
-    {
-      title: "WalletWise",
-      description:
-        "Cross-platform finance tracker with expense tracking, XLS import, bill scanning, and transaction analytics.",
-      tags: ["React Native", "Expo", "Supabase"],
+        "Designed and writing a research paper to publish a regime-switching financial risk prediction framework integrating Hidden Markov Models (HMM) with GARCH processes and Monte Carlo simulation, achieving a 50% improvement in Value-at-Risk (VaR) forecasting accuracy for Apple Inc. stock (2005–2025), with robust validation using regime frequency, Kolmogorov-Smirnov tests, and VaR calibration metrics.",
+      image: "/mtc.png",
+      rank: 2,
+      technologies: [
+        "Python",
+        "Hidden Markov Model (HMM)",
+        "GARCH",
+        "Monte Carlo Simulation",
+        "Financial Risk Prediction",
+      ],
+      github: "https://github.com/aknsubbu/",
     },
   ];
 
   return (
-    <div className="py-12 md:py-24 px-4 md:px-0">
-      <h2
-        className={`text-3xl md:text-4xl font-mono text-${themeConfig.accentColor} mb-8 md:mb-12`}
-      >
-        Featured Projects
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-        {projects.map((project) => (
-          <Link href="/projects" key={project.title}>
-            <div className="bg-black/20 p-4 md:p-6 rounded-lg backdrop-blur-sm hover:bg-black/30 transition-all h-full">
-              <h3
-                className={`text-lg md:text-xl font-mono text-${themeConfig.accentColor} mb-2 md:mb-3`}
-              >
-                {project.title}
-              </h3>
-              <p className="text-gray-400 font-mono text-sm md:text-base mb-4">
-                {project.description}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className={`text-xs font-mono px-2 py-1 bg-${themeConfig.accentColor}/10 text-${themeConfig.accentColor} rounded`}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </Link>
+    <div className="mx-auto px-4 py-20">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono">
+        {projectInfos.map((project, index) => (
+          <ProjectCard
+            key={index}
+            description={project.description}
+            image={project.image} // Assuming we use the first image
+            rank={project.rank}
+            title={project.title}
+            technologies={project.technologies}
+            github={project.github}
+          />
         ))}
       </div>
     </div>
