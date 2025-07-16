@@ -1,9 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  extends: [
-    //...
-    "plugin:@next/next/recommended",
-  ],
-};
+const nextConfig = {};
 
 module.exports = nextConfig;
