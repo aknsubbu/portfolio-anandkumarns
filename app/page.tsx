@@ -77,33 +77,27 @@ const FeaturedProjects = () => {
   const projectInfos = [
     {
       title:
+        "Causal Robustness in LLM guided RL agents in NetHack Environments",
+      description:
+        "Developed a causal filter to detect causally unsafe advice from the LLM using a Graphical Causal Model (GCM). Achieved more than 30% recoveru under strategic poisoning attacks.",
+      image: "/crllm.png",
+      rank: 1,
+      technologies: ["Python", "Causal Modelling", "DoWhy", "AI Trust"],
+      github: "https://github.com/aknsubbu/",
+    },
+    {
+      title:
         "Enhanced Multi-Scale Pyramid Deep Image Prior (in collaboration with National Remote Sensing Center, Indian Space Research Organisation)",
       description:
         "Developed a enhanced version of Deep Image Prior tech customised for Cloud Removal from Satellite images. This work is being converted into research papers for publication alongside NRSC.",
       image: "/dip.png",
-      rank: 1,
+      rank: 2,
       technologies: [
         "Python",
         "Deep Image Prior",
         "PyTorch",
         "Satellite Imagery",
         "Cloud Removal",
-      ],
-      github: "https://github.com/aknsubbu/",
-    },
-    {
-      title:
-        "Regime-Switching Financial Risk Prediction Using Hidden Markov Model GARCH and Monte Carlo Simulation (Ongoing)",
-      description:
-        "Designed and writing a research paper to publish a regime-switching financial risk prediction framework integrating Hidden Markov Models (HMM) with GARCH processes and Monte Carlo simulation, achieving a 50% improvement in Value-at-Risk (VaR) forecasting accuracy for Apple Inc. stock (2005–2025), with robust validation using regime frequency, Kolmogorov-Smirnov tests, and VaR calibration metrics.",
-      image: "/mtc.png",
-      rank: 2,
-      technologies: [
-        "Python",
-        "Hidden Markov Model (HMM)",
-        "GARCH",
-        "Monte Carlo Simulation",
-        "Financial Risk Prediction",
       ],
       github: "https://github.com/aknsubbu/",
     },
