@@ -47,7 +47,7 @@ export const projectConfig = [
     description:
       "A secure, multi-user terminal chatroom server with Telnet support. SecureChatRoom provides a retro-style text-based chat experience with modern security features.... It supports multiple users, secure connections, and a simple command-line interface for interaction. The server is built using Python's socket programming and threading capabilities, ensuring efficient handling of multiple clients simultaneously.",
     image: "/scr.png",
-    rank: 7,
+    rank: 4,
     technologies: [
       "Node.js ",
       " WebSocket ",
@@ -58,12 +58,20 @@ export const projectConfig = [
     github: "https://github.com/aknsubbu/SecureChatRoom",
   },
   {
+    title: "Sustainable Agri AI Workflow",
+    description:
+      "A unique AI Agentic Workflow to help promote sustainable agriculture practices with the help of a crew of AI Agents for the collaboration and coordination between different capabilities built into the software…",
+    image: "/saaiw1.png",
+    rank: 5,
+    technologies: ["AI Agents", "Python", "Agriculture", "Machine Learning"],
+  },
+  {
     title:
       "Autonomous Low Cost Mobile Robot (Developed in collaboration with HPE)",
     description:
       "This is a complete autonomous navigation system for a small robot using BLE beacons for localization and ultrasonic sensors for obstacle avoidance... This was built in accordance with the requirements of a competition organized by HPE and PSG Tech. The robot was able to navigate autonomously through a maze with the help of the sensors and the algorithms we developed.",
     image: "/amr.png",
-    rank: 5,
+    rank: 6,
     technologies: [
       " Bluetooth Low Energy",
       "Arduino",
@@ -78,7 +86,7 @@ export const projectConfig = [
     description:
       "Developed Agentic-Suite, a collection of AI-powered proof-of-concept projects for advanced data analysis and natural language processing, designed for sales demonstrations and client presentations. Built three key applications—Financial Research Dashboard, TalkToCSV, and TalkToDB—using Python, Streamlit, FastAPI, and LangChain, enabling interactive stock market analysis, conversational CSV data exploration, and natural language-to-SQL query interfaces....",
     image: "/ags.png",
-    rank: 6,
+    rank: 7,
     technologies: ["Python", "AutoGen", "Agentic Tools", "ML", "AI Agents"],
     github: "https://github.com/aknsubbu/Agentic-Suite",
   },
@@ -90,14 +98,6 @@ export const projectConfig = [
     rank: 8,
     technologies: ["Python", "LangChain", "RAG", "ML", "XAI"],
     github: "https://github.com/aknsubbu/XAISuggestionServer",
-  },
-  {
-    title: "Sustainable Agri AI Workflow",
-    description:
-      "A unique AI Agentic Workflow to help promote sustainable agriculture practices with the help of a crew of AI Agents for the collaboration and coordination between different capabilities built into the software…",
-    image: "/saaiw1.png",
-    rank: 4,
-    technologies: ["AI Agents", "Python", "Agriculture", "Machine Learning"],
   },
   {
     title: "PSG Connect",
