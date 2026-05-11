@@ -4,33 +4,7 @@ import { Image } from "@nextui-org/react";
 
 import { cinematicReveal, staggerContainer } from "@/lib/animation-variants";
 import { useCinematicReveal } from "@/lib/use-cinematic-reveal";
-
-const SKILLS: Record<string, string[]> = {
-  "Artificial Intelligence": [
-    "Agentic Applications",
-    "Applied AI Services",
-    "LangChain",
-    "LlamaIndex",
-    "OpenAI API",
-    "Ollama",
-  ],
-  "Front End": [
-    "React",
-    "TypeScript",
-    "Next.js",
-    "React Native",
-    "Expo",
-    "TailwindCSS",
-  ],
-  "Backend & Database": [
-    "MongoDB",
-    "Supabase",
-    "FastAPI",
-    "Node.js",
-    "Express.js",
-    "PostgreSQL",
-  ],
-};
+import { SKILLS } from "@/config/skills";
 
 export default function About() {
   const { ref: skillsRef, isVisible: skillsVisible } =

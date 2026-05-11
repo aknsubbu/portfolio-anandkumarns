@@ -1,7 +1,7 @@
 export type ThemeConfig = typeof themeConfig;
 
 export const themeConfig = {
-  accentColor: "white",
+  accentColor: "[#F08135]",
   gradientColor: {
     primary: "rgba(240, 129, 53, 0.07)",
     secondary: "rgba(240, 129, 53, 0.04)",

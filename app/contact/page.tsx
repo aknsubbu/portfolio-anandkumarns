@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import Script from "next/script";
 
 import { siteConfig } from "@/config/site";
 import { cinematicReveal, staggerContainer } from "@/lib/animation-variants";
@@ -145,8 +146,7 @@ export default function Contact() {
                 Send Message
               </button>
             </form>
-            {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-            <script async defer src="https://web3forms.com/client/script.js" />
+            <Script src="https://web3forms.com/client/script.js" strategy="lazyOnload" />
           </motion.div>
         </motion.div>
       </div>

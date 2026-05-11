@@ -7,33 +7,7 @@ import {
   staggerContainer,
 } from "@/lib/animation-variants";
 import { useCinematicReveal } from "@/lib/use-cinematic-reveal";
-
-const SKILLS: Record<string, string[]> = {
-  "Artificial Intelligence": [
-    "Agentic Applications",
-    "Applied AI Services",
-    "LangChain",
-    "LlamaIndex",
-    "OpenAI API",
-    "Ollama",
-  ],
-  "Front End": [
-    "React",
-    "TypeScript",
-    "Next.js",
-    "React Native",
-    "Expo",
-    "TailwindCSS",
-  ],
-  "Backend & Database": [
-    "MongoDB",
-    "Supabase",
-    "FastAPI",
-    "Node.js",
-    "Express.js",
-    "PostgreSQL",
-  ],
-};
+import { SKILLS } from "@/config/skills";
 
 function HeroSection() {
   return (
@@ -49,7 +23,7 @@ function HeroSection() {
             animate={{ y: 0 }}
             transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay: 0 }}
           >
-            Portfolio · 2025
+            Portfolio · {new Date().getFullYear()}
           </motion.p>
         </div>
 
