@@ -45,9 +45,9 @@ function HeroSection() {
         <div className="overflow-hidden mb-2">
           <motion.p
             className="text-xs tracking-[4px] text-[#F08135] uppercase font-medium"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0 }}
+            initial={{ y: "110%" }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay: 0 }}
           >
             Portfolio · 2025
           </motion.p>
