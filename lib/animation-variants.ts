@@ -16,7 +16,7 @@ export const cinematicReveal: Variants = {
 };
 
 export const lineReveal: Variants = {
-  hidden: { scaleX: 0 },
+  hidden: { scaleX: 0, originX: 0 },
   visible: {
     scaleX: 1,
     transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
