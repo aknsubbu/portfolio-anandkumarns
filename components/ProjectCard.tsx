@@ -29,7 +29,7 @@ export default function ProjectCard({
             className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
           />
           {rank !== undefined && (
-            <div className="absolute bottom-3 right-3 text-5xl font-bold text-white/[0.06] leading-none select-none pointer-events-none font-mono">
+            <div className="absolute bottom-3 right-3 text-5xl text-white/[0.06] leading-none select-none pointer-events-none font-mono">
               {String(rank).padStart(2, "0")}
             </div>
           )}
