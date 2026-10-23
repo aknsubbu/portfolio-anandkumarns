@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio CRM</title>
+    <style>
+      :root {
+        --bg: #0a0a0a;
+        --panel: rgba(255, 255, 255, 0.03);
+        --panel-2: rgba(255, 255, 255, 0.05);
+        --border: rgba(255, 255, 255, 0.1);
+        --accent: #16a34a;
+        --accent-soft: rgba(34, 200, 34, 0.15);
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+        --danger: #ef4444;
+        --mono: ui-monospace, SFMono-Regular, "Fira Code", Menlo, monospace;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      a { color: var(--accent); }
+      .wrap { max-width: 900px; margin: 0 auto; padding: 24px 16px 80px; }
+      header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+      header h1 { font-size: 22px; margin: 0; }
+      header .dot { color: var(--accent); }
+      .sub { color: var(--muted); margin: 0 0 20px; font-size: 12px; }
+      .tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+      .tab {
+        background: none; border: none; color: var(--muted); font-family: var(--mono);
+        font-size: 14px; padding: 10px 14px; cursor: pointer; border-bottom: 2px solid transparent;
+      }
+      .tab.active { color: var(--text); border-bottom-color: var(--accent); }
+      .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 8px; flex-wrap: wrap; }
+      .btn {
+        background: var(--panel-2); color: var(--text); border: 1px solid var(--border);
+        font-family: var(--mono); font-size: 13px; padding: 8px 14px; border-radius: 6px; cursor: pointer;
+        transition: all .15s ease;
+      }
+      .btn:hover { border-color: var(--accent); }
+      .btn:disabled { opacity: .4; cursor: not-allowed; }
+      .btn.primary { background: var(--accent); border-color: var(--accent); color: #02140a; font-weight: 600; }
+      .btn.primary:hover { background: #22c55e; }
+      .btn.ghost { background: none; }
+      .btn.danger { color: var(--danger); }
+      .btn.sm { padding: 4px 8px; font-size: 12px; }
+      .card {
+        background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+        padding: 14px; margin-bottom: 10px;
+      }
+      .row { display: flex; gap: 12px; align-items: center; }
+      .row .grow { flex: 1; min-width: 0; }
+      .rank { color: var(--accent); width: 28px; flex-shrink: 0; }
+      .ptitle { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .ptech { color: var(--muted); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .actions { display: flex; gap: 4px; flex-shrink: 0; }
+      label { display: block; color: var(--muted); font-size: 12px; margin: 12px 0 4px; }
+      input[type="text"], textarea {
+        width: 100%; background: #050505; border: 1px solid var(--border); color: var(--text);
+        font-family: var(--mono); font-size: 13px; padding: 8px 10px; border-radius: 6px;
+      }
+      input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+      textarea { resize: vertical; min-height: 80px; }
+      .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+      .chip {
+        display: inline-flex; align-items: center; gap: 6px; background: var(--accent-soft);
+        color: var(--text); border: 1px solid var(--border); padding: 3px 8px; border-radius: 999px; font-size: 12px;
+      }
+      .chip button { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 13px; padding: 0; }
+      .chip button:hover { color: var(--danger); }
+      .preview { margin-top: 8px; max-width: 280px; border-radius: 6px; border: 1px solid var(--border); }
+      .link-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
+      .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 12px; }
+      .gitem { position: relative; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: #050505; }
+      .gitem img { display: block; width: 100%; height: 110px; object-fit: cover; }
+      .gitem .gmeta { padding: 6px 8px; font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .gitem .gbadge { display: inline-block; font-size: 10px; padding: 1px 5px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); margin-left: 4px; }
+      .gitem .gactions { display: flex; gap: 4px; padding: 0 6px 6px; }
+      .picker-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 200; display: flex; align-items: center; justify-content: center; }
+      .picker-box { background: #0d0d0d; border: 1px solid var(--border); border-radius: 10px; width: min(760px, 95vw); max-height: 80vh; display: flex; flex-direction: column; overflow: hidden; }
+      .picker-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+      .picker-head h3 { margin: 0; font-size: 15px; }
+      .picker-body { overflow-y: auto; padding: 16px; }
+      .picker-item { cursor: pointer; border: 2px solid transparent; border-radius: 8px; transition: border-color .15s; }
+      .picker-item:hover { border-color: var(--accent); }
+      .link-row input.k { flex: 0 0 140px; }
+      .link-row input.v { flex: 1; }
+      .toast {
+        position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+        padding: 10px 18px; border-radius: 8px; font-size: 13px; z-index: 100; border: 1px solid var(--border);
+      }
+      .toast.ok { background: #052e16; border-color: var(--accent); color: #bbf7d0; }
+      .toast.err { background: #2e0505; border-color: var(--danger); color: #fecaca; }
+      .muted { color: var(--muted); }
+      .dirty { color: #fbbf24; font-size: 12px; }
+      .inline-edit { display: flex; gap: 6px; margin-top: 6px; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module">
+      import React, { useState, useEffect, useCallback } from "https://esm.sh/react@18.3.1";
+      import { createRoot } from "https://esm.sh/react-dom@18.3.1/client";
+      import htm from "https://esm.sh/htm@3.1.1";
+
+      const html = htm.bind(React.createElement);
+      const { useRef } = React;
+
+      // --- API helpers ------------------------------------------------------
+      async function api(method, url, body) {
+        const opts = { method, headers: {} };
+        if (body !== undefined) {
+          opts.headers["Content-Type"] = "application/json";
+          opts.body = JSON.stringify(body);
+        }
+        const res = await fetch(url, opts);
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || `${method} ${url} failed`);
+        return data;
+      }
+
+      // --- Image picker modal -----------------------------------------------
+      function ImagePicker({ onSelect, onClose }) {
+        const [images, setImages] = useState(null);
+        useEffect(() => {
+          api("GET", "/api/images").then(setImages).catch(() => setImages([]));
+        }, []);
+
+        return html`
+          <div class="picker-overlay" onClick=${(e) => { if (e.target === e.currentTarget) onClose(); }}>
+            <div class="picker-box">
+              <div class="picker-head">
+                <h3>Choose existing image</h3>
+                <button class="btn ghost" onClick=${onClose}>✕ Close</button>
+              </div>
+              <div class="picker-body">
+                ${images === null && html`<p class="muted">Loading…</p>`}
+                ${images && images.length === 0 && html`<p class="muted">No images in public/ yet.</p>`}
+                ${images && images.length > 0 && html`
+                  <div class="gallery">
+                    ${images.map((img) => html`
+                      <div class="gitem picker-item" key=${img.name} onClick=${() => onSelect(img.path)}>
+                        <img src=${img.path} alt=${img.name} onError=${(e) => { e.target.style.display = "none"; }} />
+                        <div class="gmeta">${img.name}${img.inUse && html`<span class="gbadge">in use</span>`}</div>
+                      </div>
+                    `)}
+                  </div>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // --- Tag editor -------------------------------------------------------
+      function Tags({ value, onChange }) {
+        const [draft, setDraft] = useState("");
+        const add = () => {
+          if (!draft.trim()) return;
+          onChange([...value, draft]);
+          setDraft("");
+        };
+        return html`
+          <div>
+            <div class="chips">
+              ${value.map(
+                (t, i) => html`
+                  <span class="chip" key=${i}>
+                    ${t}
+                    <button onClick=${() => onChange(value.filter((_, j) => j !== i))}>×</button>
+                  </span>
+                `
+              )}
+            </div>
+            <div class="inline-edit">
+              <input
+                type="text"
+                placeholder="Add technology…"
+                value=${draft}
+                onInput=${(e) => setDraft(e.target.value)}
+                onKeyDown=${(e) => { if (e.key === "Enter") { e.preventDefault(); add(); } }}
+              />
+              <button class="btn sm" onClick=${add} type="button">Add</button>
+            </div>
+          </div>
+        `;
+      }
+
+      // --- Project form -----------------------------------------------------
+      function ProjectForm({ initial, onSave, onCancel, notify }) {
+        const [p, setP] = useState(initial);
+        const [uploading, setUploading] = useState(false);
+        const [showPicker, setShowPicker] = useState(false);
+        const fileRef = useRef(null);
+        const set = (k, v) => setP((prev) => ({ ...prev, [k]: v }));
+
+        const onFile = async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          setUploading(true);
+          try {
+            const dataUrl = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = () => reject(new Error("Could not read file"));
+              reader.readAsDataURL(file);
+            });
+            const data = await api("POST", "/api/upload", { filename: file.name, data: dataUrl });
+            set("image", data.path);
+            notify("Image uploaded", "ok");
+          } catch (err) {
+            notify(err.message, "err");
+          } finally {
+            setUploading(false);
+            if (fileRef.current) fileRef.current.value = "";
+          }
+        };
+
+        return html`
+          <div class="card">
+            <label>Title *</label>
+            <input type="text" value=${p.title || ""} onInput=${(e) => set("title", e.target.value)} />
+
+            <label>Description *</label>
+            <textarea value=${p.description || ""} onInput=${(e) => set("description", e.target.value)}></textarea>
+
+            <label>Technologies *</label>
+            <${Tags} value=${p.technologies || []} onChange=${(v) => set("technologies", v)} />
+
+            <label>Image *</label>
+            <input type="text" value=${p.image || ""} placeholder="/example.png" onInput=${(e) => set("image", e.target.value)} />
+            <div class="inline-edit">
+              <input ref=${fileRef} type="file" accept="image/*" onChange=${onFile} />
+              <button class="btn sm" type="button" onClick=${() => setShowPicker(true)}>Choose existing…</button>
+              ${uploading && html`<span class="muted">Uploading…</span>`}
+            </div>
+            ${p.image && html`<img class="preview" src=${p.image} alt="preview" onError=${(e) => (e.target.style.display = "none")} onLoad=${(e) => (e.target.style.display = "block")} />`}
+            ${showPicker && html`
+              <${ImagePicker}
+                onSelect=${(path) => { set("image", path); setShowPicker(false); }}
+                onClose=${() => setShowPicker(false)}
+              />
+            `}
+
+            <label>GitHub URL (optional)</label>
+            <input type="text" value=${p.github || ""} onInput=${(e) => set("github", e.target.value)} />
+
+            <label>Live link (optional)</label>
+            <input type="text" value=${p.link || ""} onInput=${(e) => set("link", e.target.value)} />
+
+            <div class="inline-edit" style=${{ marginTop: "16px" }}>
+              <button class="btn primary" onClick=${() => onSave(p)} type="button">Done</button>
+              <button class="btn ghost" onClick=${onCancel} type="button">Cancel</button>
+            </div>
+          </div>
+        `;
+      }
+
+      // --- Projects panel ---------------------------------------------------
+      function ProjectsPanel({ notify }) {
+        const [projects, setProjects] = useState(null);
+        const [dirty, setDirty] = useState(false);
+        const [editing, setEditing] = useState(null); // index | "new" | null
+        const [saving, setSaving] = useState(false);
+
+        useEffect(() => {
+          api("GET", "/api/projects").then(setProjects).catch((e) => notify(e.message, "err"));
+        }, []);
+
+        const mutate = (next) => { setProjects(next); setDirty(true); };
+
+        const move = (i, dir) => {
+          const j = i + dir;
+          if (j < 0 || j >= projects.length) return;
+          const next = projects.slice();
+          [next[i], next[j]] = [next[j], next[i]];
+          mutate(next);
+        };
+
+        const del = (i) => {
+          if (!confirm(`Delete "${projects[i].title}"?`)) return;
+          mutate(projects.filter((_, j) => j !== i));
+        };
+
+        const saveForm = (p) => {
+          if (editing === "new") mutate([...projects, p]);
+          else mutate(projects.map((old, j) => (j === editing ? p : old)));
+          setEditing(null);
+        };
+
+        const persist = async () => {
+          setSaving(true);
+          try {
+            const saved = await api("PUT", "/api/projects", projects);
+            setProjects(saved);
+            setDirty(false);
+            notify("Projects saved to disk", "ok");
+          } catch (e) {
+            notify(e.message, "err");
+          } finally {
+            setSaving(false);
+          }
+        };
+
+        if (projects === null) return html`<p class="muted">Loading…</p>`;
+
+        if (editing !== null) {
+          const initial = editing === "new"
+            ? { title: "", description: "", image: "", technologies: [], github: "", link: "" }
+            : { ...projects[editing] };
+          return html`<${ProjectForm} initial=${initial} onSave=${saveForm} onCancel=${() => setEditing(null)} notify=${notify} />`;
+        }
+
+        return html`
+          <div>
+            <div class="toolbar">
+              <div>
+                <button class="btn" onClick=${() => setEditing("new")}>+ Add project</button>
+                ${dirty && html`<span class="dirty"> ● unsaved changes</span>`}
+              </div>
+              <button class="btn primary" disabled=${!dirty || saving} onClick=${persist}>
+                ${saving ? "Saving…" : "Save to disk"}
+              </button>
+            </div>
+            ${projects.map((p, i) => html`
+              <div class="card" key=${i}>
+                <div class="row">
+                  <span class="rank">${String(i + 1).padStart(2, "0")}</span>
+                  <div class="grow">
+                    <div class="ptitle">${p.title}</div>
+                    <div class="ptech">${(p.technologies || []).join(" • ")}</div>
+                  </div>
+                  <div class="actions">
+                    <button class="btn sm" disabled=${i === 0} onClick=${() => move(i, -1)} title="Move up">↑</button>
+                    <button class="btn sm" disabled=${i === projects.length - 1} onClick=${() => move(i, 1)} title="Move down">↓</button>
+                    <button class="btn sm" onClick=${() => setEditing(i)}>Edit</button>
+                    <button class="btn sm danger" onClick=${() => del(i)}>Delete</button>
+                  </div>
+                </div>
+              </div>
+            `)}
+          </div>
+        `;
+      }
+
+      // --- Site panel -------------------------------------------------------
+      function SitePanel({ notify }) {
+        const [name, setName] = useState("");
+        const [description, setDescription] = useState("");
+        const [links, setLinks] = useState([]); // [{key, value}]
+        const [loaded, setLoaded] = useState(false);
+        const [saving, setSaving] = useState(false);
+
+        useEffect(() => {
+          api("GET", "/api/site").then((s) => {
+            setName(s.name || "");
+            setDescription(s.description || "");
+            setLinks(Object.entries(s.links || {}).map(([key, value]) => ({ key, value })));
+            setLoaded(true);
+          }).catch((e) => notify(e.message, "err"));
+        }, []);
+
+        const setLink = (i, field, v) =>
+          setLinks(links.map((l, j) => (j === i ? { ...l, [field]: v } : l)));
+
+        const persist = async () => {
+          const linksObj = {};
+          for (const { key, value } of links) {
+            if (!key.trim()) { notify("Link labels cannot be empty", "err"); return; }
+            linksObj[key.trim()] = value;
+          }
+          setSaving(true);
+          try {
+            await api("PUT", "/api/site", { name, description, links: linksObj });
+            notify("Site saved to disk", "ok");
+          } catch (e) {
+            notify(e.message, "err");
+          } finally {
+            setSaving(false);
+          }
+        };
+
+        if (!loaded) return html`<p class="muted">Loading…</p>`;
+
+        return html`
+          <div>
+            <div class="card">
+              <label>Site name *</label>
+              <input type="text" value=${name} onInput=${(e) => setName(e.target.value)} />
+              <label>Description</label>
+              <input type="text" value=${description} onInput=${(e) => setDescription(e.target.value)} />
+            </div>
+            <div class="card">
+              <label>Social links</label>
+              ${links.map((l, i) => html`
+                <div class="link-row" key=${i}>
+                  <input class="k" type="text" placeholder="label" value=${l.key} onInput=${(e) => setLink(i, "key", e.target.value)} />
+                  <input class="v" type="text" placeholder="https://…" value=${l.value} onInput=${(e) => setLink(i, "value", e.target.value)} />
+                  <button class="btn sm danger" onClick=${() => setLinks(links.filter((_, j) => j !== i))}>×</button>
+                </div>
+              `)}
+              <button class="btn sm" onClick=${() => setLinks([...links, { key: "", value: "" }])}>+ Add link</button>
+            </div>
+            <button class="btn primary" disabled=${saving} onClick=${persist}>
+              ${saving ? "Saving…" : "Save to disk"}
+            </button>
+          </div>
+        `;
+      }
+
+      // --- Images panel -----------------------------------------------------
+      function ImagesPanel({ notify }) {
+        const [images, setImages] = useState(null);
+        const [deleting, setDeleting] = useState(null);
+        const fileRef = useRef(null);
+        const [uploading, setUploading] = useState(false);
+
+        const load = () => api("GET", "/api/images").then(setImages).catch((e) => notify(e.message, "err"));
+
+        useEffect(() => { load(); }, []);
+
+        const del = async (img) => {
+          if (img.inUse) { notify("Remove this image from its project first.", "err"); return; }
+          if (!confirm(`Delete "${img.name}"? This cannot be undone.`)) return;
+          setDeleting(img.name);
+          try {
+            await api("DELETE", "/api/images", { name: img.name });
+            notify(`Deleted ${img.name}`, "ok");
+            load();
+          } catch (e) {
+            notify(e.message, "err");
+          } finally {
+            setDeleting(null);
+          }
+        };
+
+        const onFile = async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          setUploading(true);
+          try {
+            const dataUrl = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = () => reject(new Error("Could not read file"));
+              reader.readAsDataURL(file);
+            });
+            await api("POST", "/api/upload", { filename: file.name, data: dataUrl });
+            notify("Image uploaded", "ok");
+            load();
+          } catch (err) {
+            notify(err.message, "err");
+          } finally {
+            setUploading(false);
+            if (fileRef.current) fileRef.current.value = "";
+          }
+        };
+
+        if (images === null) return html`<p class="muted">Loading…</p>`;
+
+        return html`
+          <div>
+            <div class="toolbar">
+              <div>
+                <input ref=${fileRef} type="file" accept="image/*" onChange=${onFile} />
+                ${uploading && html`<span class="muted"> Uploading…</span>`}
+              </div>
+              <button class="btn" onClick=${load}>Refresh</button>
+            </div>
+            ${images.length === 0 && html`<p class="muted">No images in public/ yet.</p>`}
+            <div class="gallery">
+              ${images.map((img) => html`
+                <div class="gitem" key=${img.name}>
+                  <img
+                    src=${img.path}
+                    alt=${img.name}
+                    onError=${(e) => { e.target.style.background = "#111"; e.target.style.display = "none"; }}
+                  />
+                  <div class="gmeta">
+                    ${img.name}
+                    ${img.inUse && html`<span class="gbadge">in use</span>`}
+                  </div>
+                  <div class="gmeta" style=${{ marginTop: "-4px" }}>
+                    ${(img.size / 1024).toFixed(0)} KB
+                  </div>
+                  <div class="gactions">
+                    <a class="btn sm" href=${img.path} target="_blank" rel="noopener">View</a>
+                    <button
+                      class="btn sm danger"
+                      disabled=${deleting === img.name || img.inUse}
+                      title=${img.inUse ? "Remove from projects first" : "Delete"}
+                      onClick=${() => del(img)}
+                    >
+                      ${deleting === img.name ? "…" : "Delete"}
+                    </button>
+                  </div>
+                </div>
+              `)}
+            </div>
+          </div>
+        `;
+      }
+
+      // --- App --------------------------------------------------------------
+      function App() {
+        const [tab, setTab] = useState("projects");
+        const [toast, setToast] = useState(null);
+
+        const notify = useCallback((message, kind) => {
+          setToast({ message, kind });
+          setTimeout(() => setToast(null), 3000);
+        }, []);
+
+        return html`
+          <div class="wrap">
+            <header>
+              <h1>Portfolio <span class="dot">CRM</span></h1>
+            </header>
+            <p class="sub">Editing local config/*.json — restart or rebuild the site to publish.</p>
+            <div class="tabs">
+              <button class=${"tab" + (tab === "projects" ? " active" : "")} onClick=${() => setTab("projects")}>Projects</button>
+              <button class=${"tab" + (tab === "site" ? " active" : "")} onClick=${() => setTab("site")}>Site & Links</button>
+              <button class=${"tab" + (tab === "images" ? " active" : "")} onClick=${() => setTab("images")}>Images</button>
+            </div>
+            ${tab === "projects" && html`<${ProjectsPanel} notify=${notify} />`}
+            ${tab === "site" && html`<${SitePanel} notify=${notify} />`}
+            ${tab === "images" && html`<${ImagesPanel} notify=${notify} />`}
+            ${toast && html`<div class=${"toast " + toast.kind}>${toast.message}</div>`}
+          </div>
+        `;
+      }
+
+      createRoot(document.getElementById("root")).render(html`<${App} />`);
+    </script>
+  </body>
+</html>

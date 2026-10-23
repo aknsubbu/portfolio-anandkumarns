@@ -34,3 +34,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .worktrees/
+.superpowers/
+
+# CRM backup/temp files (written by crm/server.js on save)
+config/*.bak
+config/*.tmp
