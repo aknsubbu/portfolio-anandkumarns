@@ -60,20 +60,22 @@ const ProjectCard = ({
   return (
     <>
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className={clsx(fontMono.variable, "cursor-pointer")}
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+        whileHover={{ y: -6, scale: 1.02 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className={clsx(fontMono.variable, "cursor-pointer group")}
         onClick={handleCardClick}
       >
-        <Card className="bg-black/20 backdrop-blur-sm border border-orange-400/10 hover:border-orange-400/20 transition-all duration-500 font-mono">
+        <Card className="bg-black/20 backdrop-blur-sm border border-green-600/10 group-hover:border-green-600/40 group-hover:shadow-lg group-hover:shadow-green-600/10 transition-all duration-500 font-mono">
           <CardBody className="p-0 overflow-hidden">
             <div className="relative aspect-[16/9]">
               <Image
                 alt={title}
                 src={image}
                 fill
-                className="object-cover transition-all duration-500"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 priority
               />
@@ -84,7 +86,9 @@ const ProjectCard = ({
                   <motion.span
                     className="text-green-600/60 font-mono text-base sm:text-lg"
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.15 }}
                   >
                     {rank.toString().padStart(2, "0")}
                   </motion.span>
@@ -92,8 +96,9 @@ const ProjectCard = ({
                   <motion.h2
                     className="text-xl sm:text-2xl font-light text-white/90 font-mono line-clamp-2"
                     initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.1 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.25 }}
                   >
                     {title}
                   </motion.h2>

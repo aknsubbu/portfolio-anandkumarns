@@ -11,8 +11,7 @@
     "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended",
     "next",
-    "next/core-web-vitals",
-    "plugin:@next/next/recommended"
+    "next/core-web-vitals"
   ],
   "plugins": [
     "react",
