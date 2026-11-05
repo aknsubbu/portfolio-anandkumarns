@@ -1,4 +1,10 @@
+import { Metadata } from "next";
 import clsx from "clsx";
+
+export const metadata: Metadata = {
+  title: "Contact",
+  alternates: { canonical: "/contact" },
+};
 
 export default function ContactLayout({
   children,

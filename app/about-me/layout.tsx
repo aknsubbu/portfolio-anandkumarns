@@ -1,4 +1,10 @@
+import { Metadata } from "next";
 import clsx from "clsx";
+
+export const metadata: Metadata = {
+  title: "About",
+  alternates: { canonical: "/about-me" },
+};
 
 export default function AboutLayout({
   children,
