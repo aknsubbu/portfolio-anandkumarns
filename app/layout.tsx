@@ -14,6 +14,7 @@ import { siteConfig } from "@/config/site";
 import { fontMono } from "@/config/fonts";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.anandkumarns.com"),
   title: {
     default: siteConfig.name,
     template: `%s - ${siteConfig.name}`,
