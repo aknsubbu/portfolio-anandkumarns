@@ -1,6 +1,7 @@
 // Portfolio Content CRM — local-only server, zero dependencies (Node built-ins
-// only). Reads/writes config/projects.json and config/site.json, and saves
-// uploaded project images to public/. Run with `npm run crm`.
+// only). Reads/writes config/projects.json, config/site.json and
+// config/experience.json, and saves uploaded project images to public/.
+// Run with `npm run crm`.
 // Binds to localhost only; no auth.
 
 const http = require("http");
@@ -17,6 +18,7 @@ const CONFIG_DIR = path.join(ROOT, "config");
 const PUBLIC_DIR = path.join(ROOT, "public");
 const PROJECTS_FILE = path.join(CONFIG_DIR, "projects.json");
 const SITE_FILE = path.join(CONFIG_DIR, "site.json");
+const EXPERIENCE_FILE = path.join(CONFIG_DIR, "experience.json");
 
 // ---------------------------------------------------------------------------
 // File helpers
@@ -87,6 +89,55 @@ function normalizeProjects(payload) {
     if (isNonEmptyString(p.link)) project.link = p.link;
 
     return project;
+  });
+}
+
+const EXPERIENCE_TYPES = ["research", "internship", "freelance", "fulltime", "leadership"];
+
+// Validates and normalizes an experience payload. Throws Error(message) on bad
+// input. Array order is preserved (the CRM controls order, there is no rank).
+// url and location are always persisted (empty string when unset) so every
+// entry has the same shape and the site's typed JSON import stays consistent.
+function normalizeExperience(payload) {
+  if (!Array.isArray(payload)) {
+    throw new Error("Experience payload must be an array.");
+  }
+
+  return payload.map((e, i) => {
+    const label = `Experience #${i + 1}`;
+
+    for (const field of ["role", "company", "start", "end", "description"]) {
+      if (!isNonEmptyString(e[field])) {
+        throw new Error(`${label}: ${field} is required.`);
+      }
+    }
+    if (!EXPERIENCE_TYPES.includes(e.type)) {
+      throw new Error(`${label}: type must be one of ${EXPERIENCE_TYPES.join(", ")}.`);
+    }
+    if (
+      !Array.isArray(e.technologies) ||
+      e.technologies.length === 0 ||
+      !e.technologies.every((t) => typeof t === "string" && t.trim().length > 0)
+    ) {
+      throw new Error(`${label}: technologies must be a non-empty list.`);
+    }
+    for (const field of ["url", "location"]) {
+      if (e[field] !== undefined && typeof e[field] !== "string") {
+        throw new Error(`${label}: ${field} must be a string.`);
+      }
+    }
+
+    return {
+      role: e.role.trim(),
+      company: e.company.trim(),
+      url: (e.url || "").trim(),
+      location: (e.location || "").trim(),
+      type: e.type,
+      start: e.start.trim(),
+      end: e.end.trim(),
+      description: e.description.trim(),
+      technologies: e.technologies.map((t) => t.trim()),
+    };
   });
 }
 
@@ -288,6 +339,24 @@ async function handleApi(req, res, url) {
       return sendJson(res, 400, { error: err.message });
     }
     writeJsonSafe(PROJECTS_FILE, normalized);
+
+    return sendJson(res, 200, normalized);
+  }
+
+  if (url === "/api/experience" && req.method === "GET") {
+    return sendJson(res, 200, readJson(EXPERIENCE_FILE));
+  }
+
+  if (url === "/api/experience" && req.method === "PUT") {
+    const body = await readBody(req);
+    let normalized;
+
+    try {
+      normalized = normalizeExperience(body);
+    } catch (err) {
+      return sendJson(res, 400, { error: err.message });
+    }
+    writeJsonSafe(EXPERIENCE_FILE, normalized);
 
     return sendJson(res, 200, normalized);
   }

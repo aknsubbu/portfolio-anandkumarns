@@ -6,33 +6,42 @@ import { Link } from "@nextui-org/link";
 import { fontMono } from "@/config/fonts";
 import Reveal from "@/components/Reveal";
 import HorizontalShowcase from "@/components/HorizontalShowcase";
+import ExperienceSection from "@/components/ExperienceSection";
 
 // Skills Section Component
 const SkillsSection = () => {
   const skills = {
-    "Artificial Intelligence": [
-      "Agentic Applications",
-      "Applied AI Services",
-      "Langchain",
-      "LlamaIndex",
-      "OpenAI API",
-      "Ollama",
+    "AI & Machine Learning": [
+      "LLMs & RAG",
+      "Agentic AI Systems",
+      "Multi-Agent Frameworks (CrewAI)",
+      "LLM Orchestration (LangChain, LlamaIndex)",
+      "Reinforcement Learning",
+      "Deep Image Prior",
     ],
-    FrontEnd: [
-      "React",
-      "TypeScript",
-      "Next.js",
-      "React Native",
-      "Expo",
-      "TailwindCSS",
+    "Enterprise & Salesforce": [
+      "Salesforce Agentforce",
+      "Apex",
+      "Email-to-Case Automation",
+      "Playwright (E2E Testing)",
+      "Jira",
+      "REST APIs",
     ],
-    "Backend & Database Services": [
-      "MongoDB",
-      "Supabase",
+    "Languages & Backend": [
+      "Python",
+      "SQL",
+      "Java",
+      "C",
       "FastAPI",
+      "PostgreSQL & MongoDB",
+    ],
+    "Full Stack & Tools": [
+      "TypeScript",
+      "React & Next.js",
+      "React Native & Expo",
       "Node.js",
-      "Express.js",
-      "PostgreSQL",
+      "Git & GitHub",
+      "Ollama (Local LLMs)",
     ],
   };
 
@@ -45,7 +54,7 @@ const SkillsSection = () => {
           Expertise
         </h2>
       </Reveal>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-4 md:px-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 px-4 md:px-0">
         {Object.entries(skills).map(([category, items], index) => (
           <Reveal key={category} delay={index * 0.12}>
             <div className="h-full bg-black/20 p-4 md:p-6 rounded-lg backdrop-blur-sm border border-transparent transition-colors duration-300 hover:border-green-600/30 hover:bg-black/30">
@@ -171,6 +180,10 @@ const HomePage = () => {
           </div>
         </motion.div>
       </motion.div>
+
+      <div className="container mx-auto">
+        <ExperienceSection />
+      </div>
 
       <div className="container mx-auto">
         <SkillsSection />

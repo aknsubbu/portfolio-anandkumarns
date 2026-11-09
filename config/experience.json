@@ -1,0 +1,97 @@
+[
+  {
+    "role": "Member of Technical Research",
+    "company": "New York Machine Learning Research Guild",
+    "url": "",
+    "location": "New York, NY",
+    "type": "research",
+    "start": "Nov 2026",
+    "end": "Present",
+    "description": "Member of the technical research group at the New York Machine Learning Research Guild, working on machine learning research alongside other researchers in the city.",
+    "technologies": [
+      "Machine Learning",
+      "Research"
+    ]
+  },
+  {
+    "role": "Graduate Fellow & Technical Facilitator",
+    "company": "PETAL, NYU",
+    "url": "",
+    "location": "New York, NY",
+    "type": "leadership",
+    "start": "Oct 2026",
+    "end": "Present",
+    "description": "Design the technical curriculum and run workshops for undergraduates in NYU's all-university Tech Policy and Responsible Tech club. As a Graduate Fellow, I also analyse technology legislation debated in Congress and state legislatures, connecting applied AI work to how responsible technology policy gets made.",
+    "technologies": [
+      "Tech Policy",
+      "Responsible AI",
+      "Curriculum Design",
+      "Workshops"
+    ]
+  },
+  {
+    "role": "Software Engineering Intern",
+    "company": "Schneider Electric",
+    "url": "https://www.se.com",
+    "location": "Bengaluru, India",
+    "type": "internship",
+    "start": "Jan 2026",
+    "end": "Jul 2026",
+    "description": "Built an agentic QA automation system (Playwright end-to-end tests with Jira defect tracking) that cut manual regression testing effort by 55%. Core member of the AI bot team that shipped a Salesforce Agentforce email-to-case bot for Customer Relations, and built an API filtering engine for Schneider's internal innovation challenge.",
+    "technologies": [
+      "Salesforce Agentforce",
+      "Apex",
+      "Playwright",
+      "Jira",
+      "Agentic AI",
+      "REST APIs"
+    ]
+  },
+  {
+    "role": "Technical Lead",
+    "company": "GitHub Campus Club, PSG Tech",
+    "url": "",
+    "location": "Coimbatore, India",
+    "type": "leadership",
+    "start": "Aug 2025",
+    "end": "Jun 2026",
+    "description": "Led technical operations for the club: ran Git/GitHub and open-source workshops, mentored students, and led development of joint projects, in-house tools and research initiatives.",
+    "technologies": [
+      "Git",
+      "GitHub",
+      "Open Source",
+      "Mentoring"
+    ]
+  },
+  {
+    "role": "Student Research Intern",
+    "company": "National Remote Sensing Centre, ISRO",
+    "url": "https://www.nrsc.gov.in",
+    "location": "Hyderabad, India",
+    "type": "research",
+    "start": "May 2025",
+    "end": "Jul 2025",
+    "description": "Developed EMSP-DIP, a training-free deep learning method built on Deep Image Prior that removes clouds from satellite imagery without target datasets (+5.46 dB PSNR over baseline DIP on RICE II). Published in IEEE Geoscience and Remote Sensing Letters, Sep 2026.",
+    "technologies": [
+      "Python",
+      "PyTorch",
+      "Deep Image Prior",
+      "Satellite Imagery"
+    ]
+  },
+  {
+    "role": "Executive Member",
+    "company": "GitHub Campus Club, PSG Tech",
+    "url": "",
+    "location": "Coimbatore, India",
+    "type": "leadership",
+    "start": "Aug 2023",
+    "end": "Aug 2025",
+    "description": "Ran technical workshops and competitions, led technical recruitment for the club, and led projects and research undertaken by the club.",
+    "technologies": [
+      "Workshops",
+      "Recruitment",
+      "Research"
+    ]
+  }
+]

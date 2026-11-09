@@ -4,6 +4,7 @@ import clsx from "clsx";
 
 import { fontMono } from "@/config/fonts";
 import Reveal from "@/components/Reveal";
+import ExperienceTimeline from "@/components/ExperienceTimeline";
 
 export default function About() {
   return (
@@ -20,9 +21,9 @@ export default function About() {
           <div className="w-75 h-75 md:w-75 md:h-75 rounded-full overflow-hidden">
             <Image
               alt="Anandkumar NS"
-              src="/anand.png"
+              src="/anand-centered.jpeg"
               classNames={{
-                img: "w-full h-full object-cover ",
+                img: "w-full h-full object-cover",
               }}
               radius="none"
             />
@@ -46,15 +47,23 @@ export default function About() {
           <Reveal delay={0.1}>
             <div className="space-y-6">
               <p className="text-lg md:text-xl font-mono">
-                I&apos;m a computer science student with a passion for learning
-                and creating. My journey in tech has led me to explore various
-                areas of software development, from web applications to machine
-                learning projects.
+                I build agentic AI systems and research how to make them safer.
+                I&apos;m an MS CS student at NYU Courant. At Schneider Electric
+                I built an agentic QA pipeline (Playwright + Jira) that cut
+                manual regression testing by 55% and helped ship an Agentforce
+                email-to-case bot. At ISRO&apos;s NRSC I developed EMSP-DIP, a
+                training-free method for removing clouds from satellite images,
+                now published in IEEE Geoscience and Remote Sensing Letters.
               </p>
               <p className="text-lg md:text-xl font-mono">
-                When I&apos;m not coding, you can find me reading about the
-                latest tech trends, contributing to open-source projects, or
-                experimenting with new programming languages and frameworks.
+                My research interests are agentic misalignment, multi-agent
+                systems, causal ML and reinforcement learning. That includes a
+                causal safety layer for LLM-guided RL agents that recovers about
+                75% of performance under adversarial advice in NetHack. I also
+                have a published Indian patent application on multi-agent AI for
+                agriculture and a Springer conference paper on low-cost
+                autonomous logistics robots. I&apos;m looking for Summer 2027
+                SWE and ML internships.
               </p>
             </div>
           </Reveal>
@@ -65,20 +74,25 @@ export default function About() {
               </h3>
               <ul className="list-disc list-inside text-gray-300 space-y-2 font-mono">
                 <li>
-                  JavaScript (React, React Native, Expo, Node.js, ExpressJS,
-                  NextJS)
+                  AI / ML (LLMs, RAG, Reinforcement Learning, Agentic AI,
+                  Multi-Agent Frameworks, Deep Image Prior)
                 </li>
-                <li>TypeScript (NextJS)</li>
+                <li>LLM Orchestration (CrewAI, LangChain, LlamaIndex, Ollama)</li>
+                <li>Salesforce (Agentforce, Apex, Email-to-Case Automation)</li>
+                <li>Testing &amp; Tooling (Playwright, Jira, REST APIs, Git &amp; GitHub)</li>
+                <li>Python (FastAPI), SQL, Java</li>
                 <li>C (Algorithms, Data Structures and Networking Sockets)</li>
-                <li>Python (FastAPI, Flask)</li>
-                <li>Database Design (SQL, MongoDB, PostgresSQL)</li>
-                <li>Cloud Services (Azure, Google Cloud)</li>
-                <li>Applied AI (Ollama, LangChain, LlamaIndex)</li>
+                <li>Database Design (PostgreSQL, MongoDB)</li>
+                <li>
+                  Web &amp; Mobile (TypeScript, React, Next.js, React Native,
+                  Expo, Node.js)
+                </li>
               </ul>
             </div>
           </Reveal>
         </div>
       </div>
+      <ExperienceTimeline />
     </div>
   );
 }

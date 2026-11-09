@@ -62,11 +62,18 @@
       .ptech { color: var(--muted); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       .actions { display: flex; gap: 4px; flex-shrink: 0; }
       label { display: block; color: var(--muted); font-size: 12px; margin: 12px 0 4px; }
-      input[type="text"], textarea {
+      input[type="text"], textarea, select {
         width: 100%; background: #050505; border: 1px solid var(--border); color: var(--text);
         font-family: var(--mono); font-size: 13px; padding: 8px 10px; border-radius: 6px;
       }
-      input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+      input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); }
+      .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .badge { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--border); margin-left: 6px; color: var(--muted); }
+      .badge.research { color: #a78bfa; border-color: rgba(139,92,246,.4); }
+      .badge.internship { color: #34d399; border-color: rgba(16,185,129,.4); }
+      .badge.freelance { color: #fbbf24; border-color: rgba(245,158,11,.4); }
+      .badge.fulltime { color: #60a5fa; border-color: rgba(59,130,246,.4); }
+      .badge.leadership { color: #38bdf8; border-color: rgba(14,165,233,.4); }
       textarea { resize: vertical; min-height: 80px; }
       .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
       .chip {
@@ -350,6 +357,155 @@
         `;
       }
 
+      // --- Experience form --------------------------------------------------
+      const EXPERIENCE_TYPES = ["research", "internship", "freelance", "fulltime", "leadership"];
+
+      function ExperienceForm({ initial, onSave, onCancel, notify }) {
+        const [e, setE] = useState(initial);
+        const set = (k, v) => setE((prev) => ({ ...prev, [k]: v }));
+
+        const done = () => {
+          for (const [field, name] of [["role", "Role"], ["company", "Company"], ["start", "Start"], ["end", "End"], ["description", "Description"]]) {
+            if (!(e[field] || "").trim()) { notify(`${name} is required`, "err"); return; }
+          }
+          if (!(e.technologies || []).length) { notify("Add at least one technology", "err"); return; }
+          onSave(e);
+        };
+
+        return html`
+          <div class="card">
+            <label>Role *</label>
+            <input type="text" value=${e.role || ""} onInput=${(ev) => set("role", ev.target.value)} />
+
+            <label>Company *</label>
+            <input type="text" value=${e.company || ""} onInput=${(ev) => set("company", ev.target.value)} />
+
+            <label>Company URL (optional — makes the name a link on About)</label>
+            <input type="text" placeholder="https://…" value=${e.url || ""} onInput=${(ev) => set("url", ev.target.value)} />
+
+            <div class="grid2">
+              <div>
+                <label>Type *</label>
+                <select value=${e.type} onChange=${(ev) => set("type", ev.target.value)}>
+                  ${EXPERIENCE_TYPES.map((t) => html`<option key=${t} value=${t}>${t}</option>`)}
+                </select>
+              </div>
+              <div>
+                <label>Location (optional)</label>
+                <input type="text" placeholder="City, Country" value=${e.location || ""} onInput=${(ev) => set("location", ev.target.value)} />
+              </div>
+              <div>
+                <label>Start *</label>
+                <input type="text" placeholder="Jan 2026" value=${e.start || ""} onInput=${(ev) => set("start", ev.target.value)} />
+              </div>
+              <div>
+                <label>End *</label>
+                <input type="text" placeholder="Present" value=${e.end || ""} onInput=${(ev) => set("end", ev.target.value)} />
+              </div>
+            </div>
+
+            <label>Description *</label>
+            <textarea value=${e.description || ""} onInput=${(ev) => set("description", ev.target.value)}></textarea>
+
+            <label>Technologies *</label>
+            <${Tags} value=${e.technologies || []} onChange=${(v) => set("technologies", v)} />
+
+            <div class="inline-edit" style=${{ marginTop: "16px" }}>
+              <button class="btn primary" onClick=${done} type="button">Done</button>
+              <button class="btn ghost" onClick=${onCancel} type="button">Cancel</button>
+            </div>
+          </div>
+        `;
+      }
+
+      // --- Experience panel -------------------------------------------------
+      function ExperiencePanel({ notify }) {
+        const [entries, setEntries] = useState(null);
+        const [dirty, setDirty] = useState(false);
+        const [editing, setEditing] = useState(null); // index | "new" | null
+        const [saving, setSaving] = useState(false);
+
+        useEffect(() => {
+          api("GET", "/api/experience").then(setEntries).catch((e) => notify(e.message, "err"));
+        }, []);
+
+        const mutate = (next) => { setEntries(next); setDirty(true); };
+
+        const move = (i, dir) => {
+          const j = i + dir;
+          if (j < 0 || j >= entries.length) return;
+          const next = entries.slice();
+          [next[i], next[j]] = [next[j], next[i]];
+          mutate(next);
+        };
+
+        const del = (i) => {
+          if (!confirm(`Delete "${entries[i].role} — ${entries[i].company}"?`)) return;
+          mutate(entries.filter((_, j) => j !== i));
+        };
+
+        const saveForm = (e) => {
+          if (editing === "new") mutate([...entries, e]);
+          else mutate(entries.map((old, j) => (j === editing ? e : old)));
+          setEditing(null);
+        };
+
+        const persist = async () => {
+          setSaving(true);
+          try {
+            const saved = await api("PUT", "/api/experience", entries);
+            setEntries(saved);
+            setDirty(false);
+            notify("Experience saved to disk", "ok");
+          } catch (e) {
+            notify(e.message, "err");
+          } finally {
+            setSaving(false);
+          }
+        };
+
+        if (entries === null) return html`<p class="muted">Loading…</p>`;
+
+        if (editing !== null) {
+          const initial = editing === "new"
+            ? { role: "", company: "", url: "", location: "", type: "internship", start: "", end: "", description: "", technologies: [] }
+            : { ...entries[editing] };
+          return html`<${ExperienceForm} initial=${initial} onSave=${saveForm} onCancel=${() => setEditing(null)} notify=${notify} />`;
+        }
+
+        return html`
+          <div>
+            <div class="toolbar">
+              <div>
+                <button class="btn" onClick=${() => setEditing("new")}>+ Add experience</button>
+                ${dirty && html`<span class="dirty"> ● unsaved changes</span>`}
+              </div>
+              <button class="btn primary" disabled=${!dirty || saving} onClick=${persist}>
+                ${saving ? "Saving…" : "Save to disk"}
+              </button>
+            </div>
+            <p class="sub">Order here is display order, most recent first. The home page shows the top 5.</p>
+            ${entries.map((e, i) => html`
+              <div class="card" key=${i}>
+                <div class="row">
+                  <span class="rank">${String(i + 1).padStart(2, "0")}</span>
+                  <div class="grow">
+                    <div class="ptitle">${e.role}<span class=${"badge " + e.type}>${e.type}</span></div>
+                    <div class="ptech">${e.company} • ${e.start} – ${e.end}</div>
+                  </div>
+                  <div class="actions">
+                    <button class="btn sm" disabled=${i === 0} onClick=${() => move(i, -1)} title="Move up">↑</button>
+                    <button class="btn sm" disabled=${i === entries.length - 1} onClick=${() => move(i, 1)} title="Move down">↓</button>
+                    <button class="btn sm" onClick=${() => setEditing(i)}>Edit</button>
+                    <button class="btn sm danger" onClick=${() => del(i)}>Delete</button>
+                  </div>
+                </div>
+              </div>
+            `)}
+          </div>
+        `;
+      }
+
       // --- Site panel -------------------------------------------------------
       function SitePanel({ notify }) {
         const [name, setName] = useState("");
@@ -526,10 +682,12 @@
             <p class="sub">Editing local config/*.json — restart or rebuild the site to publish.</p>
             <div class="tabs">
               <button class=${"tab" + (tab === "projects" ? " active" : "")} onClick=${() => setTab("projects")}>Projects</button>
+              <button class=${"tab" + (tab === "experience" ? " active" : "")} onClick=${() => setTab("experience")}>Experience</button>
               <button class=${"tab" + (tab === "site" ? " active" : "")} onClick=${() => setTab("site")}>Site & Links</button>
               <button class=${"tab" + (tab === "images" ? " active" : "")} onClick=${() => setTab("images")}>Images</button>
             </div>
             ${tab === "projects" && html`<${ProjectsPanel} notify=${notify} />`}
+            ${tab === "experience" && html`<${ExperiencePanel} notify=${notify} />`}
             ${tab === "site" && html`<${SitePanel} notify=${notify} />`}
             ${tab === "images" && html`<${ImagesPanel} notify=${notify} />`}
             ${toast && html`<div class=${"toast " + toast.kind}>${toast.message}</div>`}
